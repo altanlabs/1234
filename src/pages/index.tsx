@@ -7,6 +7,13 @@ interface Invoice {
   [key: string]: unknown;
 }
 
+interface Provider {
+  IdFiscal: string;
+  IdProveedor: number;
+  Nombre: string;
+  Subcuenta: string | null;
+}
+
 const fieldsOrder = [
   "NombreFiscalEmisor", "IdFiscalEmisor", "IdProveedor", "Subcuenta",
   "Base1", "Cuota1", "Base2", "Cuota2", "Base3", "Cuota3",
@@ -15,6 +22,7 @@ const fieldsOrder = [
 
 export default function InvoiceEditor() {
   const [invoices, setInvoices] = useState<Invoice[]>([]);
+  const [providers, setProviders] = useState<Provider[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
 
@@ -25,6 +33,7 @@ export default function InvoiceEditor() {
         if (!response.ok) throw new Error('Failed to fetch data');
         const data = await response.json();
         setInvoices(data.facturas || []);
+        setProviders(data.proveedores || []);
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
@@ -33,6 +42,16 @@ export default function InvoiceEditor() {
     }
     fetchData();
   }, []);
+
+  const handleProviderSearch = (field: string, value: string) => {
+    const provider = providers.find(p => p.Nombre.toLowerCase().includes(value.toLowerCase()));
+    if (provider) {
+      const updatedInvoices = [...invoices];
+      updatedInvoices[currentIndex][field] = provider.IdProveedor;
+      updatedInvoices[currentIndex]['Subcuenta'] = provider.Subcuenta || 'NOT FOUND';
+      setInvoices(updatedInvoices);
+    }
+  };
 
   const displayInvoice = (index: number) => {
     const invoice = invoices[index];
@@ -48,7 +67,19 @@ export default function InvoiceEditor() {
       return (
         <div key={field} className="form-field">
           <Label>{field}</Label>
-          <Input type="text" name={field} value={value} readOnly className={isError ? 'border-red-500' : ''} />
+          <Input
+            type="text"
+            name={field}
+            value={value}
+            readOnly={field !== 'IdProveedor' && field !== 'Subcuenta'}
+            className={isError ? 'border-red-500' : ''}
+            onClick={() => {
+              if (field === 'IdProveedor' || field === 'Subcuenta') {
+                const searchValue = prompt('Buscar proveedor por nombre:');
+                if (searchValue) handleProviderSearch(field, searchValue);
+              }
+            }}
+          />
         </div>
       );
     }).concat([
