@@ -123,11 +123,11 @@ export default function InvoiceEditor() {
             onChange={(e) => field === 'NombreFiscalEmisor' ? setSearchTerm(e.target.value) : handleFieldChange(field, e.target.value)}
           />
           {field === 'NombreFiscalEmisor' && searchTerm && (
-            <div className="absolute z-10 bg-white border border-gray-300 w-full max-h-40 overflow-y-auto">
+            <div className="absolute z-10 bg-gray-800 border border-gray-600 w-full max-h-40 overflow-y-auto">
               {filteredProviders.map(provider => (
                 <div
                   key={provider.IdProveedor}
-                  className="p-2 cursor-pointer hover:bg-gray-100"
+                  className="p-2 cursor-pointer hover:bg-gray-700 text-white"
                   onClick={() => handleProviderSelect(provider)}
                 >
                   {provider.Nombre}
