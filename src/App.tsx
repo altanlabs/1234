@@ -13,7 +13,6 @@ import {
   Users
 } from "lucide-react";
 
-import { Layout } from "./layout";
 import Index from "./pages/index";
 import NotFound from "./pages/NotFound";
 import DashboardPage from "./pages/dashboard/DashboardPage";
@@ -77,23 +76,7 @@ const App = () => {
                 {/* Marketing pages with header navigation */}
                 <Route
                   path="/"
-                  element={
-                    <Layout
-                      showSidebar={false}
-                      header={{
-                        title: appName,
-                        navigation: [
-                          { label: "Home", href: "/" },
-                          { label: "About", href: "/about" },
-                          { label: "Contact", href: "/contact" },
-                          { label: "Pricing", href: "/pricing" },
-                        ],
-                        showNotifications: false,
-                        showUserMenu: false,
-                        showThemeToggle: true,
-                      }}
-                    />
-                  }
+                  element={<Index />}
                 >
                   <Route index element={<Index />} />
                   <Route path="*" element={<NotFound />} />
@@ -102,14 +85,7 @@ const App = () => {
                 {/* Dashboard pages with sidebar configuration */}
                 <Route
                   path="/dashboard"
-                  element={
-                    <Layout
-                      showSidebar={true}
-                      sidebarConfig={dashboardSidebar}
-                      header={false}
-                      footer={false}
-                    />
-                  }
+                  element={<DashboardPage />}
                 >
                   <Route index element={<DashboardPage />} />
                   {/* Add other dashboard routes as needed */}
