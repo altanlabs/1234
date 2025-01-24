@@ -18,6 +18,7 @@ import Index from "./pages/index";
 import NotFound from "./pages/NotFound";
 import DashboardPage from "./pages/dashboard/DashboardPage";
 import UploadPage from "./pages/upload";
+import ExportPage from "./pages/export";
 import { useTheme } from "./theme/use-theme";
 
 const appName = "Facturator";
@@ -43,6 +44,7 @@ const App = () => {
                         navigation: [
                           { label: "Editor", href: "/" },
                           { label: "Subir Facturas", href: "/upload" },
+                          { label: "Exportar", href: "/export" },
                         ],
                         showNotifications: false,
                         showUserMenu: false,
@@ -53,6 +55,7 @@ const App = () => {
                 >
                   <Route index element={<Index />} />
                   <Route path="upload" element={<UploadPage />} />
+                  <Route path="export" element={<ExportPage />} />
                   <Route path="*" element={<NotFound />} />
                 </Route>
 
