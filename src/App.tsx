@@ -19,6 +19,7 @@ import NotFound from "./pages/NotFound";
 import DashboardPage from "./pages/dashboard/DashboardPage";
 import UploadPage from "./pages/upload";
 import ExportPage from "./pages/export";
+import LoginPage from "./pages/login";
 import { useTheme } from "./theme/use-theme";
 
 const appName = "Facturator";
@@ -33,6 +34,9 @@ const App = () => {
           <SidebarProvider>
             <BrowserRouter>
               <Routes>
+                {/* Login page */}
+                <Route path="/login" element={<LoginPage />} />
+
                 {/* Marketing pages with header navigation */}
                 <Route
                   path="/"
