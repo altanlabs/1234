@@ -55,6 +55,8 @@ export default function InvoiceEditor() {
 
   const handleProviderSelect = (provider: Provider) => {
     const updatedInvoices = [...invoices];
+    updatedInvoices[currentIndex]['NombreFiscalEmisor'] = provider.Nombre;
+    updatedInvoices[currentIndex]['IdFiscalEmisor'] = provider.IdFiscal;
     updatedInvoices[currentIndex]['IdProveedor'] = provider.IdProveedor;
     updatedInvoices[currentIndex]['Subcuenta'] = provider.Subcuenta || 'NOT FOUND';
     setInvoices(updatedInvoices);
@@ -78,12 +80,12 @@ export default function InvoiceEditor() {
           <Input
             type="text"
             name={field}
-            value={field === 'IdProveedor' ? searchTerm : value}
-            readOnly={field !== 'IdProveedor' && field !== 'Subcuenta'}
+            value={field === 'NombreFiscalEmisor' ? searchTerm : value}
+            readOnly={false}
             className={isError ? 'border-red-500' : ''}
-            onChange={(e) => field === 'IdProveedor' && setSearchTerm(e.target.value)}
+            onChange={(e) => field === 'NombreFiscalEmisor' ? setSearchTerm(e.target.value) : null}
           />
-          {field === 'IdProveedor' && searchTerm && (
+          {field === 'NombreFiscalEmisor' && searchTerm && (
             <div className="absolute z-10 bg-white border border-gray-300 w-full max-h-40 overflow-y-auto">
               {filteredProviders.map(provider => (
                 <div
