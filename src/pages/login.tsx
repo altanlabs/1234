@@ -18,7 +18,7 @@ export default function LoginPage() {
 
   return (
     <div className="flex h-screen items-center justify-center bg-gray-900 text-white">
-      <div className="w-full max-w-lg p-8 bg-gray-800 rounded-lg shadow-lg text-center">
+      <div className="w-full max-w-md p-8 bg-gray-800 rounded-lg shadow-lg text-center">
         <img 
           src="https://static.wixstatic.com/media/eab6ae_43f4d7656c9740f68d357500571e82e3~mv2.png/v1/fill/w_540,h_311,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/salgueda.png" 
           alt="Salgueda Logo" 
