@@ -168,7 +168,7 @@ export default function InvoiceEditor() {
           className="w-full h-full border-none"
         />
       </div>
-      <div className="flex-1 p-6 overflow-y-auto bg-gray-100">
+      <div className="flex-1 p-6 overflow-y-auto bg-gray-900 text-white">
         <div className="flex justify-between mb-4">
           <div className="font-bold text-lg">Factura ID: {String(invoices[currentIndex]?.Id ?? '')}</div>
           <div className="space-x-2">
