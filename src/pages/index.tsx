@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 
 interface Invoice {
-  [key: string]: string | number;
+  [key: string]: unknown;
 }
 
 const fieldsOrder = [
@@ -39,7 +39,7 @@ export default function InvoiceEditor() {
     return fieldsOrder.map((field) => (
       <div key={field} className="form-field">
         <Label>{field}</Label>
-        <Input type="text" name={field} defaultValue={String(invoice[field] || '')} />
+        <Input type="text" name={field} defaultValue={String(invoice[field] ?? '')} />
       </div>
     ));
   };
@@ -52,13 +52,13 @@ export default function InvoiceEditor() {
       <div className="flex-1 border-r">
         <iframe
           id="invoice-iframe"
-          src={invoices[currentIndex]?.DocumentoMarcaAgua || ""}
+          src={String(invoices[currentIndex]?.DocumentoMarcaAgua ?? "")}
           className="w-full h-full border-none"
         />
       </div>
       <div className="flex-1 p-6 overflow-y-auto bg-gray-100">
         <div className="flex justify-between mb-4">
-          <div className="font-bold text-lg">Status: {invoices[currentIndex]?.Status}</div>
+          <div className="font-bold text-lg">Status: {String(invoices[currentIndex]?.Status ?? '')}</div>
           <div className="space-x-2">
             <Button onClick={() => setCurrentIndex((prev) => Math.max(prev - 1, 0))}>Previous</Button>
             <Button onClick={() => setCurrentIndex((prev) => Math.min(prev + 1, invoices.length - 1))}>Next</Button>
