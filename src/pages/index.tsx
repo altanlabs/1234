@@ -60,7 +60,13 @@ export default function InvoiceEditor() {
     updatedInvoices[currentIndex]['IdProveedor'] = provider.IdProveedor;
     updatedInvoices[currentIndex]['Subcuenta'] = provider.Subcuenta || 'NOT FOUND';
     setInvoices(updatedInvoices);
-    setSearchTerm("");
+    setSearchTerm(provider.Nombre);
+  };
+
+  const handleFieldChange = (field: string, value: string) => {
+    const updatedInvoices = [...invoices];
+    updatedInvoices[currentIndex][field] = value;
+    setInvoices(updatedInvoices);
   };
 
   const displayInvoice = (index: number) => {
@@ -83,7 +89,7 @@ export default function InvoiceEditor() {
             value={field === 'NombreFiscalEmisor' ? searchTerm : value}
             readOnly={false}
             className={isError ? 'border-red-500' : ''}
-            onChange={(e) => field === 'NombreFiscalEmisor' ? setSearchTerm(e.target.value) : null}
+            onChange={(e) => field === 'NombreFiscalEmisor' ? setSearchTerm(e.target.value) : handleFieldChange(field, e.target.value)}
           />
           {field === 'NombreFiscalEmisor' && searchTerm && (
             <div className="absolute z-10 bg-white border border-gray-300 w-full max-h-40 overflow-y-auto">
