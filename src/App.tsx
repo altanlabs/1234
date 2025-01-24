@@ -13,12 +13,14 @@ import {
   Users
 } from "lucide-react";
 
+import { Layout } from "./layout";
 import Index from "./pages/index";
 import NotFound from "./pages/NotFound";
 import DashboardPage from "./pages/dashboard/DashboardPage";
+import UploadPage from "./pages/upload";
 import { useTheme } from "./theme/use-theme";
 
-const appName = "My app";
+const appName = "Facturator";
 
 const App = () => {
   const { theme } = useTheme();
@@ -33,9 +35,24 @@ const App = () => {
                 {/* Marketing pages with header navigation */}
                 <Route
                   path="/"
-                  element={<Index />}
+                  element={
+                    <Layout
+                      showSidebar={false}
+                      header={{
+                        title: appName,
+                        navigation: [
+                          { label: "Editor", href: "/" },
+                          { label: "Subir Facturas", href: "/upload" },
+                        ],
+                        showNotifications: false,
+                        showUserMenu: false,
+                        showThemeToggle: true,
+                      }}
+                    />
+                  }
                 >
                   <Route index element={<Index />} />
+                  <Route path="upload" element={<UploadPage />} />
                   <Route path="*" element={<NotFound />} />
                 </Route>
 
