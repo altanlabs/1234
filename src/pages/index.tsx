@@ -92,6 +92,14 @@ export default function InvoiceEditor() {
     }
   };
 
+  const isSaveDisabled = () => {
+    const invoice = invoices[currentIndex];
+    const totalCheck = parseFloat(String(invoice.Total)) === (parseFloat(String(invoice.Base1)) + parseFloat(String(invoice.Base2)) + parseFloat(String(invoice.Base3)) + parseFloat(String(invoice.Cuota1)) + parseFloat(String(invoice.Cuota2)) + parseFloat(String(invoice.Cuota3)) - parseFloat(String(invoice.RetencionIRPF)));
+    const idProveedorValid = /^4\d{6}$/.test(String(invoice.IdProveedor));
+    const subcuentaValid = /^6\d{6}$/.test(String(invoice.Subcuenta));
+    return !(totalCheck && idProveedorValid && subcuentaValid);
+  };
+
   const displayInvoice = (index: number) => {
     const invoice = invoices[index];
     const computedIVA1 = ((parseFloat(String(invoice.Cuota1)) || 0) / (parseFloat(String(invoice.Base1)) || 1)).toFixed(2);
@@ -162,7 +170,7 @@ export default function InvoiceEditor() {
       </div>
       <div className="flex-1 p-6 overflow-y-auto bg-gray-100">
         <div className="flex justify-between mb-4">
-          <div className="font-bold text-lg">Factura ID: {String(invoices[currentIndex]?.id ?? '')}</div>
+          <div className="font-bold text-lg">Factura ID: {String(invoices[currentIndex]?.Id ?? '')}</div>
           <div className="space-x-2">
             <Button onClick={() => setCurrentIndex((prev) => Math.max(prev - 1, 0))}>Previous</Button>
             <Button onClick={() => setCurrentIndex((prev) => Math.min(prev + 1, invoices.length - 1))}>Next</Button>
@@ -171,7 +179,7 @@ export default function InvoiceEditor() {
         <form className="grid grid-cols-2 gap-4">
           {displayInvoice(currentIndex)}
         </form>
-        <Button className="mt-4" onClick={saveInvoice}>Guardar Factura</Button>
+        <Button className="mt-4" onClick={saveInvoice} disabled={isSaveDisabled()}>Guardar Factura</Button>
       </div>
     </div>
   );

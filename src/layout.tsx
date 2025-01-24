@@ -61,6 +61,7 @@ interface LayoutProps {
 const DefaultNavigation: NavItem[] = [
   { label: "Editor", href: "/" },
   { label: "Subir Facturas", href: "/upload" },
+  { label: "Exportar", href: "/export" },
 ];
 
 const DefaultHeader: HeaderProps = {
