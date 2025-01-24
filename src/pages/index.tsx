@@ -39,7 +39,7 @@ export default function InvoiceEditor() {
     return fieldsOrder.map((field) => (
       <div key={field} className="form-field">
         <Label>{field}</Label>
-        <Input type="text" name={field} defaultValue={invoice[field]} />
+        <Input type="text" name={field} defaultValue={String(invoice[field] || '')} />
       </div>
     ));
   };
