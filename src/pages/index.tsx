@@ -39,7 +39,7 @@ export default function InvoiceEditor() {
     return fieldsOrder.map((field) => (
       <div key={field} className="form-field">
         <Label>{field}</Label>
-        <Input type="text" name={field} defaultValue={String(invoice[field] ?? '')} />
+        <Input type="text" name={field} value={String(invoice[field] ?? '')} readOnly />
       </div>
     ));
   };
@@ -56,7 +56,7 @@ export default function InvoiceEditor() {
           className="w-full h-full border-none"
         />
       </div>
-      <div className="flex-1 p-6 overflow-y-auto bg-gray-100">
+      <div className="flex-1 overflow-y-auto bg-gray-100">
         <div className="flex justify-between mb-4">
           <div className="font-bold text-lg">Status: {String(invoices[currentIndex]?.Status ?? '')}</div>
           <div className="space-x-2">
