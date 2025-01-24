@@ -94,7 +94,7 @@ export default function InvoiceEditor() {
 
   const isSaveDisabled = () => {
     const invoice = invoices[currentIndex];
-    const totalCheck = parseFloat(String(invoice.Total)) === (parseFloat(String(invoice.Base1)) + parseFloat(String(invoice.Base2)) + parseFloat(String(invoice.Base3)) + parseFloat(String(invoice.Cuota1)) + parseFloat(String(invoice.Cuota2)) + parseFloat(String(invoice.Cuota3)) - parseFloat(String(invoice.RetencionIRPF)));
+    const totalCheck = Math.abs(parseFloat(String(invoice.Total)) - (parseFloat(String(invoice.Base1)) + parseFloat(String(invoice.Base2)) + parseFloat(String(invoice.Base3)) + parseFloat(String(invoice.Cuota1)) + parseFloat(String(invoice.Cuota2)) + parseFloat(String(invoice.Cuota3)) - parseFloat(String(invoice.RetencionIRPF)))) < 0.01;
     const idProveedorValid = /^4\d{6}$/.test(String(invoice.IdProveedor));
     const subcuentaValid = /^6\d{6}$/.test(String(invoice.Subcuenta));
     return !(totalCheck && idProveedorValid && subcuentaValid);
@@ -106,7 +106,7 @@ export default function InvoiceEditor() {
     const computedIVA2 = ((parseFloat(String(invoice.Cuota2)) || 0) / (parseFloat(String(invoice.Base2)) || 1)).toFixed(2);
     const computedIVA3 = ((parseFloat(String(invoice.Cuota3)) || 0) / (parseFloat(String(invoice.Base3)) || 1)).toFixed(2);
     const computedIRPF = ((parseFloat(String(invoice.RetencionIRPF)) || 0) / (parseFloat(String(invoice.Base1)) || 1)).toFixed(2);
-    const totalCheck = parseFloat(String(invoice.Total)) === (parseFloat(String(invoice.Base1)) + parseFloat(String(invoice.Base2)) + parseFloat(String(invoice.Base3)) + parseFloat(String(invoice.Cuota1)) + parseFloat(String(invoice.Cuota2)) + parseFloat(String(invoice.Cuota3)) - parseFloat(String(invoice.RetencionIRPF)));
+    const totalCheck = Math.abs(parseFloat(String(invoice.Total)) - (parseFloat(String(invoice.Base1)) + parseFloat(String(invoice.Base2)) + parseFloat(String(invoice.Base3)) + parseFloat(String(invoice.Cuota1)) + parseFloat(String(invoice.Cuota2)) + parseFloat(String(invoice.Cuota3)) - parseFloat(String(invoice.RetencionIRPF)))) < 0.01;
 
     return fieldsOrder.map((field) => {
       const value = String(invoice[field] ?? '');
