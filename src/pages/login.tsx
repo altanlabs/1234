@@ -10,7 +10,7 @@ export default function LoginPage() {
 
   const handleLogin = () => {
     if (password.toLowerCase() === "butifarra") {
-      navigate("/");
+      navigate("/editor");
     } else {
       setError("Contraseña incorrecta");
     }
