@@ -1,7 +1,7 @@
 import { Theme } from "@radix-ui/themes";
 import "@radix-ui/themes/styles.css";
 import "./index.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { ThemeProvider } from "@/theme/theme-provider";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { 
@@ -34,19 +34,22 @@ const App = () => {
           <SidebarProvider>
             <BrowserRouter>
               <Routes>
+                {/* Redirect to login by default */}
+                <Route path="/" element={<Navigate to="/login" replace />} />
+
                 {/* Login page */}
                 <Route path="/login" element={<LoginPage />} />
 
                 {/* Marketing pages with header navigation */}
                 <Route
-                  path="/"
+                  path="/editor"
                   element={
                     <Layout
                       showSidebar={false}
                       header={{
                         title: appName,
                         navigation: [
-                          { label: "Editor", href: "/" },
+                          { label: "Editor", href: "/editor" },
                           { label: "Subir Facturas", href: "/upload" },
                           { label: "Exportar", href: "/export" },
                         ],
