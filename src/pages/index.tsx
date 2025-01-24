@@ -113,13 +113,13 @@ export default function InvoiceEditor() {
       const isError = value === '' || value === 'NOT FOUND';
       return (
         <div key={field} className="form-field relative">
-          <Label>{field}</Label>
+          <Label className="text-foreground">{field}</Label>
           <Input
             type="text"
             name={field}
             value={field === 'NombreFiscalEmisor' ? searchTerm || value : value}
             readOnly={false}
-            className={isError ? 'border-red-500' : ''}
+            className={`${isError ? 'border-red-500' : ''} bg-background text-foreground`}
             onChange={(e) => field === 'NombreFiscalEmisor' ? setSearchTerm(e.target.value) : handleFieldChange(field, e.target.value)}
           />
           {field === 'NombreFiscalEmisor' && searchTerm && (
