@@ -87,8 +87,8 @@ export default function InvoiceEditor() {
       } else {
         alert('All invoices have been processed.');
       }
-    } catch (error) {
-      alert('Error saving invoice: ' + error.message);
+    } catch (error: any) {
+      alert('Error saving invoice: ' + (error.message || error));
     }
   };
 
