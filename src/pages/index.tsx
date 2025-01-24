@@ -162,7 +162,7 @@ export default function InvoiceEditor() {
       </div>
       <div className="flex-1 p-6 overflow-y-auto bg-gray-100">
         <div className="flex justify-between mb-4">
-          <div className="font-bold text-lg">Factura ID: {String(invoices[currentIndex]?.Id ?? '')}</div>
+          <div className="font-bold text-lg">Factura ID: {String(invoices[currentIndex]?.id ?? '')}</div>
           <div className="space-x-2">
             <Button onClick={() => setCurrentIndex((prev) => Math.max(prev - 1, 0))}>Previous</Button>
             <Button onClick={() => setCurrentIndex((prev) => Math.min(prev + 1, invoices.length - 1))}>Next</Button>
