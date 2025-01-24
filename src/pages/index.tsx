@@ -60,7 +60,7 @@ export default function InvoiceEditor() {
     updatedInvoices[currentIndex]['IdProveedor'] = provider.IdProveedor;
     updatedInvoices[currentIndex]['Subcuenta'] = provider.Subcuenta || 'NOT FOUND';
     setInvoices(updatedInvoices);
-    setSearchTerm(provider.Nombre);
+    setSearchTerm("");
   };
 
   const handleFieldChange = (field: string, value: string) => {
@@ -86,7 +86,7 @@ export default function InvoiceEditor() {
           <Input
             type="text"
             name={field}
-            value={field === 'NombreFiscalEmisor' ? searchTerm : value}
+            value={field === 'NombreFiscalEmisor' ? searchTerm || value : value}
             readOnly={false}
             className={isError ? 'border-red-500' : ''}
             onChange={(e) => field === 'NombreFiscalEmisor' ? setSearchTerm(e.target.value) : handleFieldChange(field, e.target.value)}
