@@ -20,49 +20,6 @@ import { useTheme } from "./theme/use-theme";
 
 const appName = "My app";
 
-// Define sidebar configuration
-const dashboardSidebar = {
-  items: [
-    {
-      label: "Dashboard",
-      href: "/dashboard",
-      icon: <LayoutDashboard className="h-4 w-4" />,
-    },
-    {
-      label: "Analytics",
-      href: "/dashboard/analytics",
-      icon: <BarChart2 className="h-4 w-4" />,
-    },
-    {
-      label: "Account",
-      href: "/dashboard/account",
-      icon: <User className="h-4 w-4" />,
-    },
-    {
-      label: "Settings",
-      href: "/dashboard/settings",
-      icon: <Settings className="h-4 w-4" />,
-      items: [
-        {
-          label: "Billing",
-          href: "/dashboard/settings/billing",
-          icon: <CreditCard className="h-4 w-4" />,
-        },
-        {
-          label: "Team",
-          href: "/dashboard/settings/team",
-          icon: <Users className="h-4 w-4" />,
-        },
-      ],
-    },
-  ],
-  defaultOpen: true,
-  companyName: appName,
-  logo: null,
-  footerComponent: null,
-};
-
-
 const App = () => {
   const { theme } = useTheme();
 
