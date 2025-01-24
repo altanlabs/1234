@@ -69,6 +69,30 @@ export default function InvoiceEditor() {
     setInvoices(updatedInvoices);
   };
 
+  const handleSaveInvoice = async () => {
+    try {
+      const invoiceToSave = invoices[currentIndex];
+      const response = await fetch('https://api.altan.ai/galaxia/hook/1YFCnAy', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(invoiceToSave),
+      });
+
+      if (!response.ok) throw new Error('Failed to save invoice');
+
+      const updatedInvoices = invoices.filter((_, index) => index !== currentIndex);
+      setInvoices(updatedInvoices);
+      setCurrentIndex((prev) => Math.min(prev, updatedInvoices.length - 1));
+
+      alert('Factura guardada!');
+    } catch (error) {
+      console.error('Error saving invoice:', error);
+      alert('Error al guardar la factura');
+    }
+  };
+
   const displayInvoice = (index: number) => {
     const invoice = invoices[index];
     const computedIVA1 = ((parseFloat(String(invoice.Cuota1)) || 0) / (parseFloat(String(invoice.Base1)) || 1)).toFixed(2);
@@ -148,7 +172,7 @@ export default function InvoiceEditor() {
         <form className="grid grid-cols-2 gap-4">
           {displayInvoice(currentIndex)}
         </form>
-        <Button className="mt-4" onClick={() => alert('Invoice saved!')}>Save Invoice</Button>
+        <Button className="mt-4" onClick={handleSaveInvoice}>Guardar Factura</Button>
       </div>
     </div>
   );
