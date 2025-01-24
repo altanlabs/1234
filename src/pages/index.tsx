@@ -78,7 +78,7 @@ export default function InvoiceEditor() {
           <Input
             type="text"
             name={field}
-            value={value}
+            value={field === 'IdProveedor' ? searchTerm : value}
             readOnly={field !== 'IdProveedor' && field !== 'Subcuenta'}
             className={isError ? 'border-red-500' : ''}
             onChange={(e) => field === 'IdProveedor' && setSearchTerm(e.target.value)}
