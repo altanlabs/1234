@@ -25,6 +25,8 @@ export default function InvoiceEditor() {
   const [providers, setProviders] = useState<Provider[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [filteredProviders, setFilteredProviders] = useState<Provider[]>([]);
 
   useEffect(() => {
     async function fetchData() {
@@ -43,14 +45,20 @@ export default function InvoiceEditor() {
     fetchData();
   }, []);
 
-  const handleProviderSearch = (field: string, value: string) => {
-    const provider = providers.find(p => p.Nombre.toLowerCase().includes(value.toLowerCase()));
-    if (provider) {
-      const updatedInvoices = [...invoices];
-      updatedInvoices[currentIndex][field] = provider.IdProveedor;
-      updatedInvoices[currentIndex]['Subcuenta'] = provider.Subcuenta || 'NOT FOUND';
-      setInvoices(updatedInvoices);
-    }
+  useEffect(() => {
+    setFilteredProviders(
+      providers.filter(provider =>
+        provider.Nombre.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    );
+  }, [searchTerm, providers]);
+
+  const handleProviderSelect = (provider: Provider) => {
+    const updatedInvoices = [...invoices];
+    updatedInvoices[currentIndex]['IdProveedor'] = provider.IdProveedor;
+    updatedInvoices[currentIndex]['Subcuenta'] = provider.Subcuenta || 'NOT FOUND';
+    setInvoices(updatedInvoices);
+    setSearchTerm("");
   };
 
   const displayInvoice = (index: number) => {
@@ -65,7 +73,7 @@ export default function InvoiceEditor() {
       const value = String(invoice[field] ?? '');
       const isError = value === '' || value === 'NOT FOUND';
       return (
-        <div key={field} className="form-field">
+        <div key={field} className="form-field relative">
           <Label>{field}</Label>
           <Input
             type="text"
@@ -73,13 +81,21 @@ export default function InvoiceEditor() {
             value={value}
             readOnly={field !== 'IdProveedor' && field !== 'Subcuenta'}
             className={isError ? 'border-red-500' : ''}
-            onClick={() => {
-              if (field === 'IdProveedor' || field === 'Subcuenta') {
-                const searchValue = prompt('Buscar proveedor por nombre:');
-                if (searchValue) handleProviderSearch(field, searchValue);
-              }
-            }}
+            onChange={(e) => field === 'IdProveedor' && setSearchTerm(e.target.value)}
           />
+          {field === 'IdProveedor' && searchTerm && (
+            <div className="absolute z-10 bg-white border border-gray-300 w-full max-h-40 overflow-y-auto">
+              {filteredProviders.map(provider => (
+                <div
+                  key={provider.IdProveedor}
+                  className="p-2 cursor-pointer hover:bg-gray-100"
+                  onClick={() => handleProviderSelect(provider)}
+                >
+                  {provider.Nombre}
+                </div>
+              ))}
+            </div>
+          )}
         </div>
       );
     }).concat([
