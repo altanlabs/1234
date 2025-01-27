@@ -23,27 +23,29 @@ const App = () => {
         <div className={theme}>
           <SidebarProvider>
             <BrowserRouter>
-              <Layout
-                showSidebar={false}
-                header={{
-                  title: appName,
-                  navigation: [
-                    { label: "Editor", href: "/" },
-                    { label: "Subir Facturas", href: "/upload" },
-                    { label: "Exportar", href: "/export" },
-                  ],
-                  showNotifications: false,
-                  showUserMenu: false,
-                  showThemeToggle: true,
-                }}
-              >
-                <Routes>
-                  <Route path="/" element={<Index />} />
-                  <Route path="/upload" element={<UploadPage />} />
-                  <Route path="/export" element={<ExportPage />} />
+              <Routes>
+                <Route element={
+                  <Layout
+                    showSidebar={false}
+                    header={{
+                      title: appName,
+                      navigation: [
+                        { label: "Editor", href: "/" },
+                        { label: "Subir Facturas", href: "/upload" },
+                        { label: "Exportar", href: "/export" },
+                      ],
+                      showNotifications: false,
+                      showUserMenu: false,
+                      showThemeToggle: true,
+                    }}
+                  />
+                }>
+                  <Route index element={<Index />} />
+                  <Route path="upload" element={<UploadPage />} />
+                  <Route path="export" element={<ExportPage />} />
                   <Route path="*" element={<NotFound />} />
-                </Routes>
-              </Layout>
+                </Route>
+              </Routes>
             </BrowserRouter>
           </SidebarProvider>
         </div>
