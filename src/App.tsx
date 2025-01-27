@@ -40,40 +40,28 @@ const App = () => {
                 {/* Login page */}
                 <Route path="/login" element={<LoginPage />} />
 
-                {/* Marketing pages with header navigation */}
-                <Route
-                  path="/editor"
-                  element={
-                    <Layout
-                      showSidebar={false}
-                      header={{
-                        title: appName,
-                        navigation: [
-                          { label: "Editor", href: "/editor" },
-                          { label: "Subir Facturas", href: "/upload" },
-                          { label: "Exportar", href: "/export" },
-                        ],
-                        showNotifications: false,
-                        showUserMenu: false,
-                        showThemeToggle: true,
-                      }}
-                    />
-                  }
-                >
-                  <Route index element={<Index />} />
-                  <Route path="upload" element={<UploadPage />} />
-                  <Route path="export" element={<ExportPage />} />
-                  <Route path="*" element={<NotFound />} />
+                {/* Main app routes */}
+                <Route element={<Layout
+                  showSidebar={false}
+                  header={{
+                    title: appName,
+                    navigation: [
+                      { label: "Editor", href: "/editor" },
+                      { label: "Subir Facturas", href: "/upload" },
+                      { label: "Exportar", href: "/export" },
+                    ],
+                    showNotifications: false,
+                    showUserMenu: false,
+                    showThemeToggle: true,
+                  }}
+                />}>
+                  <Route path="/editor" element={<Index />} />
+                  <Route path="/upload" element={<UploadPage />} />
+                  <Route path="/export" element={<ExportPage />} />
                 </Route>
 
-                {/* Dashboard pages with sidebar configuration */}
-                <Route
-                  path="/dashboard"
-                  element={<DashboardPage />}
-                >
-                  <Route index element={<DashboardPage />} />
-                  {/* Add other dashboard routes as needed */}
-                </Route>
+                {/* Catch all route */}
+                <Route path="*" element={<NotFound />} />
               </Routes>
             </BrowserRouter>
           </SidebarProvider>
