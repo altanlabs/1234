@@ -16,7 +16,7 @@ interface Provider {
 
 const fieldsOrder = [
   "NombreFiscalEmisor", "IdFiscalEmisor", "IdProveedor", "Subcuenta",
-  "Base1", "Cuota1", "Base2", "Cuota2", "Base3", "Cuota3",
+  "NumFactura", "Base1", "Cuota1", "Base2", "Cuota2", "Base3", "Cuota3",
   "RetencionIRPF", "Total", "Tipo"
 ];
 
@@ -95,8 +95,8 @@ export default function InvoiceEditor() {
   const isSaveDisabled = () => {
     const invoice = invoices[currentIndex];
     const totalCheck = Math.abs(parseFloat(String(invoice.Total)) - (parseFloat(String(invoice.Base1)) + parseFloat(String(invoice.Base2)) + parseFloat(String(invoice.Base3)) + parseFloat(String(invoice.Cuota1)) + parseFloat(String(invoice.Cuota2)) + parseFloat(String(invoice.Cuota3)) - parseFloat(String(invoice.RetencionIRPF)))) < 0.01;
-    const idProveedorValid = /^4\d{6}$/.test(String(invoice.IdProveedor));
-    const subcuentaValid = /^6\d{6}$/.test(String(invoice.Subcuenta));
+    const idProveedorValid = /^4\\d{6}$/.test(String(invoice.IdProveedor));
+    const subcuentaValid = /^6\\d{6}$/.test(String(invoice.Subcuenta));
     return !(totalCheck && idProveedorValid && subcuentaValid);
   };
 

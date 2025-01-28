@@ -43,8 +43,8 @@ const App = () => {
                   <Route index element={<Index />} />
                   <Route path="upload" element={<UploadPage />} />
                   <Route path="export" element={<ExportPage />} />
-                  <Route path="*" element={<NotFound />} />
                 </Route>
+                <Route path="*" element={<NotFound />} />
               </Routes>
             </BrowserRouter>
           </SidebarProvider>
