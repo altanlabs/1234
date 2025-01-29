@@ -92,29 +92,9 @@ export default function InvoiceEditor() {
     }
   };
 
+  // Eliminamos la función isSaveDisabled para permitir guardar sin validaciones
   const isSaveDisabled = () => {
-    const invoice = invoices[currentIndex];
-    
-    // Validar el total check
-    const totalCheck = Math.abs(
-      parseFloat(String(invoice.Total)) - 
-      (parseFloat(String(invoice.Base1)) + 
-       parseFloat(String(invoice.Base2)) + 
-       parseFloat(String(invoice.Base3)) + 
-       parseFloat(String(invoice.Cuota1)) + 
-       parseFloat(String(invoice.Cuota2)) + 
-       parseFloat(String(invoice.Cuota3)) - 
-       parseFloat(String(invoice.RetencionIRPF)))
-    ) < 0.01;
-
-    // Validar que IdProveedor tenga exactamente 7 dígitos
-    const idProveedorValid = /^\\d{7}$/.test(String(invoice.IdProveedor));
-
-    // Validar que Subcuenta tenga exactamente 7 dígitos
-    const subcuentaValid = /^\\d{7}$/.test(String(invoice.Subcuenta));
-
-    // El botón estará habilitado solo si todas las condiciones son verdaderas
-    return !(totalCheck && idProveedorValid && subcuentaValid);
+    return false; // Siempre retorna false para permitir guardar
   };
 
   const displayInvoice = (index: number) => {
@@ -196,7 +176,7 @@ export default function InvoiceEditor() {
         <form className="grid grid-cols-2 gap-4">
           {displayInvoice(currentIndex)}
         </form>
-        <Button className="mt-4" onClick={saveInvoice} disabled={isSaveDisabled()}>Guardar Factura</Button>
+        <Button className="mt-4" onClick={saveInvoice}>Guardar Factura</Button>
       </div>
     </div>
   );
