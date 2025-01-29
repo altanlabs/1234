@@ -94,9 +94,26 @@ export default function InvoiceEditor() {
 
   const isSaveDisabled = () => {
     const invoice = invoices[currentIndex];
-    const totalCheck = Math.abs(parseFloat(String(invoice.Total)) - (parseFloat(String(invoice.Base1)) + parseFloat(String(invoice.Base2)) + parseFloat(String(invoice.Base3)) + parseFloat(String(invoice.Cuota1)) + parseFloat(String(invoice.Cuota2)) + parseFloat(String(invoice.Cuota3)) - parseFloat(String(invoice.RetencionIRPF)))) < 0.01;
-    const idProveedorValid = /^4\\d{6}$/.test(String(invoice.IdProveedor));
-    const subcuentaValid = /^6\\d{6}$/.test(String(invoice.Subcuenta));
+    
+    // Validar el total check
+    const totalCheck = Math.abs(
+      parseFloat(String(invoice.Total)) - 
+      (parseFloat(String(invoice.Base1)) + 
+       parseFloat(String(invoice.Base2)) + 
+       parseFloat(String(invoice.Base3)) + 
+       parseFloat(String(invoice.Cuota1)) + 
+       parseFloat(String(invoice.Cuota2)) + 
+       parseFloat(String(invoice.Cuota3)) - 
+       parseFloat(String(invoice.RetencionIRPF)))
+    ) < 0.01;
+
+    // Validar que IdProveedor tenga exactamente 7 dígitos
+    const idProveedorValid = /^\\d{7}$/.test(String(invoice.IdProveedor));
+
+    // Validar que Subcuenta tenga exactamente 7 dígitos
+    const subcuentaValid = /^\\d{7}$/.test(String(invoice.Subcuenta));
+
+    // El botón estará habilitado solo si todas las condiciones son verdaderas
     return !(totalCheck && idProveedorValid && subcuentaValid);
   };
 
