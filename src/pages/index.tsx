@@ -16,7 +16,7 @@ interface Provider {
 
 const fieldsOrder = [
   "NombreFiscalEmisor", "IdFiscalEmisor", "IdProveedor", "Subcuenta",
-  "NumFactura", "Base1", "Cuota1", "Base2", "Cuota2", "Base3", "Cuota3",
+  "NumFactura", "FechaFactura", "Base1", "Cuota1", "Base2", "Cuota2", "Base3", "Cuota3",
   "RetencionIRPF", "Total", "Tipo"
 ];
 
@@ -34,7 +34,13 @@ export default function InvoiceEditor() {
         const response = await fetch('https://api.altan.ai/galaxia/hook/t2Idrn');
         if (!response.ok) throw new Error('Failed to fetch data');
         const data = await response.json();
-        setInvoices(data.facturas || []);
+        
+        const facturasConFecha = data.facturas?.map((factura: any) => ({
+          ...factura,
+          FechaFactura: factura.FechaFactura || factura.Fecha || ''
+        })) || [];
+        
+        setInvoices(facturasConFecha);
         setProviders(data.proveedores || []);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -66,11 +72,17 @@ export default function InvoiceEditor() {
   const handleFieldChange = (field: string, value: string) => {
     const updatedInvoices = [...invoices];
     updatedInvoices[currentIndex][field] = value;
+    if (field === 'FechaFactura') {
+      updatedInvoices[currentIndex]['Fecha'] = value;
+    }
     setInvoices(updatedInvoices);
   };
 
   const saveInvoice = async () => {
-    const invoice = invoices[currentIndex];
+    const invoice = {...invoices[currentIndex]};
+    // Asegurarse de que el campo Fecha se actualice con FechaFactura
+    invoice.Fecha = invoice.FechaFactura;
+    
     try {
       const response = await fetch('https://api.altan.ai/galaxia/hook/1YFCnA', {
         method: 'POST',
@@ -92,9 +104,8 @@ export default function InvoiceEditor() {
     }
   };
 
-  // Eliminamos la función isSaveDisabled para permitir guardar sin validaciones
   const isSaveDisabled = () => {
-    return false; // Siempre retorna false para permitir guardar
+    return false;
   };
 
   const displayInvoice = (index: number) => {
@@ -106,8 +117,34 @@ export default function InvoiceEditor() {
     const totalCheck = Math.abs(parseFloat(String(invoice.Total)) - (parseFloat(String(invoice.Base1)) + parseFloat(String(invoice.Base2)) + parseFloat(String(invoice.Base3)) + parseFloat(String(invoice.Cuota1)) + parseFloat(String(invoice.Cuota2)) + parseFloat(String(invoice.Cuota3)) - parseFloat(String(invoice.RetencionIRPF)))) < 0.01;
 
     return fieldsOrder.map((field) => {
-      const value = String(invoice[field] ?? '');
+      let value = String(invoice[field] ?? '');
       const isError = value === '' || value === 'NOT FOUND';
+      
+      // Manejo especial para el campo FechaFactura
+      if (field === 'FechaFactura') {
+        // Si no hay valor en FechaFactura, intentar obtenerlo de Fecha
+        if (!value && invoice.Fecha) {
+          value = String(invoice.Fecha);
+          // Actualizar el valor en el objeto invoice
+          invoice.FechaFactura = value;
+          invoice.Fecha = value;
+        }
+        
+        return (
+          <div key={field} className="form-field relative">
+            <Label className="text-foreground">{field}</Label>
+            <Input
+              type="text"
+              name={field}
+              value={value}
+              readOnly={false}
+              className={`${isError ? 'border-red-500' : ''} bg-background text-foreground`}
+              onChange={(e) => handleFieldChange(field, e.target.value)}
+            />
+          </div>
+        );
+      }
+
       return (
         <div key={field} className="form-field relative">
           <Label className="text-foreground">{field}</Label>
